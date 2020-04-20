@@ -19,8 +19,13 @@ export default new Router({
         },
         {
             path: '/post/:id',
-            name: 'posts-detail',
+            name: 'posts-update',
             component: () => import('./components/post/Show')
+        },
+        {
+            path: '/detail/:id',
+            name: 'posts-detail',
+            component: () => import('./components/post/Detail')
         }
     ]
 })
