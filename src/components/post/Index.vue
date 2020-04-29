@@ -4,9 +4,9 @@
         <div class="row justify-content-center">
             <div class="col-md-6 mt-3">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" v-model="title">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary " type="button">
+                        <button class="btn btn-outline-secondary " type="button" @click="searchTitle">
                             Search
                         </button>
                     </div>
@@ -14,10 +14,10 @@
             </div>
         </div>
         <!-- List Card atau Post List -->
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" @submit.prevent>
             <div class="col-md-8">
                 <a href="/add" class="btn btn-outline-secondary m-3 ml-auto">Create Post</a>
-                <h4>Post List</h4>
+                <h3 class="text-center mb-4">Post List</h3>
                 <div class="card mb-3"
                     v-for="(post, kusus) in post" :key="kusus"
                 >
@@ -30,7 +30,7 @@
                         <a :href="'/detail/' +post.id" class="card-link btn btn-sm btn-outline-info">Detail Post</a>
                     </div>
                 </div>
-                <button @click="deleteAll()" class="btn btn-md btn-outline-danger m-3">
+                <button @click="deleteAll()" class="btn btn-md btn-outline-danger m-3 ml-auto">
                     <span>Remove All</span>
                 </button>
             </div>
@@ -47,6 +47,7 @@ export default {
     data(){
         return{
             post:[],
+            title:''
         }
     },
 
@@ -63,11 +64,18 @@ export default {
         
         deleteAll(){
             PostServices.deleteAll()
-            .then((data) => {
-                this.post = data.data
-                this.$router.push({name: 'posts'});
-                console.log(data.data);
+            .then(() => {
+                this.retrivePost();
             }).catch((err) => {
+                console.log(err);
+            })
+        },
+
+        searchTitle(){
+            PostServices.findByTitle(this.title)
+            .then((result) => {
+                this.post = result.data;
+            }).catch((err) =>{
                 console.log(err);
             })
         }

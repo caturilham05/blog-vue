@@ -16,7 +16,16 @@
                 <label for="">Status: {{post.published}}</label>
             </div>
             <button  @click="postUpdate()" class="btn btn-outline-success m-1">Update</button>
-            <button  @click="publish()" class="btn btn-outline-primary m-1">Publish</button>
+            
+            <button class="btn btn-outline-primary m-1"
+                v-if="post.published"
+                @click="postPublished(false)"
+            >Unpublish</button>
+
+            <button class="btn btn-outline-primary m-1"
+                v-else @click="postPublished(true)"
+            >Publish</button>
+            
             <button  @click="postDelete()" class="btn btn-outline-danger m-1">Delete</button>
         </form>
         <p>{{message}}</p>
@@ -66,16 +75,10 @@ export default {
             })
         },
         
-        // publish(){
-        //     PostServices.updatePublish(this.post.id, this.post.published)
-        //     .then((result) => {
-        //         this.message = result.data.message;
-        //         this.$router.push({name: 'posts'});
-        //         console.log(result.data);
-        //     }).catch((err) => {
-        //         console.log(err);
-        //     })
-        // },
+        postPublished(status){
+           this.post.published = status;
+           this.postUpdate();
+        },
         
         postDelete(){
             PostServices.delete(this.post.id)

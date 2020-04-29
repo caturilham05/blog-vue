@@ -17,16 +17,16 @@ class PostServices{
         return http.put(`/posts/${id}`, data);
     }
     
-    updatePublish(id, data){
-        return http.put(`/posts/${id}`, data);
-    }
-    
     delete(id){
         return http.delete(`/posts/${id}`);
     }
     
     deleteAll(){
-        return http.delete('/posts/');
+        return http.delete('/posts');
+    }
+
+    findByTitle(title){
+        return http.get(`/posts?title=${title}`);
     }
 }
 
